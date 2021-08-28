@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "pretty": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "target": "es2015",
+    "baseUrl": "./",
+    "paths": {
+      "client/*": [
+        "./client/*"
+      ]
+    },
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "jsx": "react",
+    // "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    // "noImplicitAny": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2015",
+      "esnext"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts"
+  ]
+}

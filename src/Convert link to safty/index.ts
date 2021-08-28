@@ -4,9 +4,9 @@
 // @version      0.1.1
 // @description  去除简书、知乎外链安全限制
 // @author       Fog3211
-// @include      https://www.jianshu.com/*
-// @include      https://www.zhihu.com/*
-// @include      https://zhuanlan.zhihu.com/*
+// @include      *://www.jianshu.com/*
+// @include      *://www.zhihu.com/*
+// @include      *://zhuanlan.zhihu.com/*
 // @grant        none
 // ==/UserScript==
 
