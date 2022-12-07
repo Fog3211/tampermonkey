@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/Fog3211/tampermonkey.git",
   "author": "Fog3211 <fog3211@163.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  }
 }

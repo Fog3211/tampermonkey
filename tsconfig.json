@@ -2,9 +2,10 @@
   "compilerOptions": {
     "noEmit": true,
     "pretty": true,
+    "strict": true,
     "module": "commonjs",
     "skipLibCheck": true,
-    "target": "es2015",
+    "target": "es5",
     "baseUrl": "./",
     "paths": {
       "client/*": [
@@ -12,14 +13,11 @@
       ]
     },
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "declaration": false,
     "strictNullChecks": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "jsx": "react",
-    // "noUnusedParameters": true,
-    // "noUnusedLocals": true,
-    // "noImplicitAny": true,
     "lib": [
       "dom",
       "dom.iterable",
