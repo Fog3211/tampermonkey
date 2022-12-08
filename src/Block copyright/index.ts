@@ -19,6 +19,6 @@
     // @ts-ignore
     window.getEventListeners(
       document.querySelector(targetSelector.selector)
-    ).copy.array.forEach(elm => elm.remove());
+    ).copy.array.forEach((elm: HTMLElement) => elm.remove());
   }
 })();
