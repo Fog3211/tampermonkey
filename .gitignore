@@ -1,0 +1,30 @@
+.idea
+.DS_Store
+*~
+~*
+
+.nyc_output
+.docz
+.omni_cache
+node_modules
+lib
+es
+# dist
+offline
+build
+
+package-lock.json
+# pnpm-lock.yaml
+yarn.lock
+
+*.log
+offline.zip
+
+# Recommendation from https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored (not using Zero-installs)
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!/.yarn/sdks/
+!/.yarn/sdks/**/lib/
+!.yarn/versions
+.pnp.*
