@@ -1,11 +1,12 @@
 // ==UserScript==
-// @name         去除简书、知乎外链安全限制
+// @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://github.com/Fog3211/tampermonkey/blob/main/dist/convert-link-to-safty/index.js
-// @version      0.1.2
-// @description  去除简书、知乎外链安全限制
+// @version      0.1.3
+// @description  去除简书、知乎、掘金外链安全限制
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
 // @match      https://*.zhihu.com/*
+// @match      https://*.juejin.cn/*
 // @grant        none
 // ==/UserScript==
 
@@ -19,7 +20,8 @@
     loading = true
     const ConfigList = [
       { key: 'jianshu', linkSelector: '//link.jianshu.com', splitFlag: 'to=' },
-      { key: 'zhihu', linkSelector: '//link.zhihu.com', splitFlag: 'target=' }
+      { key: 'zhihu', linkSelector: '//link.zhihu.com', splitFlag: 'target=' },
+      { key: 'juejin', linkSelector: '//link.juejin.cn', splitFlag: 'target=' }
     ]
     const record = ConfigList.find(u => window.location.hostname.includes(u.key))
 
