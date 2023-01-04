@@ -6,6 +6,7 @@
 // @author       Fog3211
 // @match        *://*.leetcode-cn.com/*
 // @grant        none
+// @license      MIT
 // ==/UserScript==
 
 (function () {

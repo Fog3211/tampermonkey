@@ -2,13 +2,14 @@
 // ==UserScript==
 // @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://github.com/Fog3211/tampermonkey/blob/main/dist/convert-link-to-safty/index.js
-// @version      0.1.4
+// @version      0.1.5
 // @description  去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
 // @match      https://*.zhihu.com/*
 // @match      https://*.juejin.cn/*
 // @grant        none
+// @license      MIT
 // ==/UserScript==
 (function () {
     'use strict';
