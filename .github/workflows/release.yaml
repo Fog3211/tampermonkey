@@ -14,12 +14,27 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: get pnpm cache
+        id: pnpm-cache
+        run: echo "::set-output name=dir::$(pnpm cache dir)"
+
+      - name: cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pnpm-cache.outputs.dir }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - name: install and build
         run: |
           npm install -g pnpm@7.15.0
           pnpm install
           pnpm run build
+
       - name: deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          folder: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
