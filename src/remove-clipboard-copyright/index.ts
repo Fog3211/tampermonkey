@@ -8,6 +8,7 @@
 // @match        https://leetcode-cn/*
 // @match        https://*.zhihu.com/*
 // @match        https://*.jianshu.com/*
+// @match        https://*.juejin.cn/*
 // @grant        none
 // @license      MIT
 // ==/UserScript==
