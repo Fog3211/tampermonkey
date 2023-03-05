@@ -14,17 +14,15 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: get pnpm cache
-        id: pnpm-cache
-        run: echo "::set-output name=dir::$(pnpm cache dir)"
-
-      - name: cache dependencies
+      - name: cache .pnpm-store
         uses: actions/cache@v2
         with:
-          path: ${{ steps.pnpm-cache.outputs.dir }}
+          path: |
+            ~/.pnpm-store
+            **/node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-
+            ${{ runner.os }}
 
       - name: install and build
         run: |
