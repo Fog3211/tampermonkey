@@ -30,11 +30,6 @@ jobs:
           pnpm install
           pnpm run build
 
-      - name: dist name
-        run: |
-          cd /home/runner/work/tampermonkey/tampermonkey 
-          ls
-
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
