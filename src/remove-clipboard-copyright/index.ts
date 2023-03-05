@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         屏蔽复制版权信息
 // @namespace    https://github.com/Fog3211/tampermonkey/blob/main/dist/remove-clipboard-copyright/index.js
-// @version      0.0.4
+// @version      0.0.5
 // @description  在力扣、知乎网站屏蔽复制版权信息
 // @author       Fog3211
 // @match        https://leetcode-cn.com/*
-// @match        https://leetcode-cn/*
+// @match        https://leetcode.cn/*
 // @match        https://*.zhihu.com/*
 // @match        https://*.jianshu.com/*
 // @match        https://*.juejin.cn/*
