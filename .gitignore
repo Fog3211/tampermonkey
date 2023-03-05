@@ -9,16 +9,13 @@
 node_modules
 lib
 es
-# dist
-offline
-build
+dist
 
 package-lock.json
 # pnpm-lock.yaml
 yarn.lock
 
 *.log
-offline.zip
 
 # Recommendation from https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored (not using Zero-installs)
 .yarn/*
