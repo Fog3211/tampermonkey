@@ -4,5 +4,5 @@
 
 ## 模块列表
 
-- [convert-link-to-safty](./): 去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
-- [remove-clipboard-copyright](./): 在力扣、知乎网站屏蔽复制版权信息
+- [convert-link-to-safty](https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/convert-link-to-safty.js): 去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
+- [remove-clipboard-copyright](https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/remove-clipboard-copyright.js): 在力扣、知乎网站屏蔽复制版权信息
