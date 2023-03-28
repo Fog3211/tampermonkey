@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/convert-link-to-safty.js
-// @version      0.1.9
+// @version      0.1.10
 // @description  去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
@@ -21,7 +21,8 @@
     if (loading) { return }
     loading = true
     const ConfigList = [
-      { key: 'jianshu', linkSelector: '//link.jianshu.com', splitFlag: 'to=' },
+      // https://www.jianshu.com/p/c5e07343515d
+      { key: 'jianshu', linkSelector: '//links.jianshu.com', splitFlag: 'to=' },
       { key: 'zhihu', linkSelector: '//link.zhihu.com', splitFlag: 'target=' },
       { key: 'juejin', linkSelector: '//link.juejin.cn', splitFlag: 'target=' },
       { key: 'sspai', linkSelector: 'https://sspai.com', splitFlag: 'target=' }
