@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/Fog3211/tampermonkey.git",
-  "author": "Fog3211 <fog3211@163.com>",
+  "author": "Fog3211 <fog3211@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build:docs":"markdown-to-html --output ./dist/index.html",
+    "build": "tsc && npm run build:docs",
     "clean": "rimraf dist",
     "prebuild": "npm run clean"
   },
   "devDependencies": {
+    "markdown-to-html-cli": "^3.5.3",
     "rimraf": "^3.0.2",
     "typescript": "^4.9.4"
   }
