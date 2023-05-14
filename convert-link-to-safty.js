@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/convert-link-to-safty.js
-// @version      0.1.10
+// @version      0.1.11
 // @description  去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
@@ -22,14 +22,14 @@
         loading = true;
         var ConfigList = [
             // https://www.jianshu.com/p/c5e07343515d
-            { key: 'jianshu', linkSelector: '//links.jianshu.com', splitFlag: 'to=' },
-            { key: 'zhihu', linkSelector: '//link.zhihu.com', splitFlag: 'target=' },
-            { key: 'juejin', linkSelector: '//link.juejin.cn', splitFlag: 'target=' },
-            { key: 'sspai', linkSelector: 'https://sspai.com', splitFlag: 'target=' }
+            { key: 'jianshu', linkSelector: ['//link.jianshu.com', '//links.jianshu.com'], splitFlag: 'to=' },
+            { key: 'zhihu', linkSelector: ['//link.zhihu.com'], splitFlag: 'target=' },
+            { key: 'juejin', linkSelector: ['//link.juejin.cn'], splitFlag: 'target=' },
+            { key: 'sspai', linkSelector: ['https://sspai.com'], splitFlag: 'target=' }
         ];
         var record = ConfigList.find(function (u) { return window.location.hostname.includes(u.key); });
         if (record) {
-            var aLists = Array.from(document.querySelectorAll("a[href*='".concat(record.linkSelector, "']")));
+            var aLists = Array.from(document.querySelectorAll(record.linkSelector.map(function (u) { return "a[href*='".concat(u, "']"); }).join(',')));
             aLists.forEach(function (elm) {
                 /**
                  * 有可能会出现这种情况，所以要取最后一部分
