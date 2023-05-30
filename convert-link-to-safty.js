@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/convert-link-to-safty.js
-// @version      0.2.0
+// @version      0.2.1
 // @description  去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
@@ -27,7 +27,8 @@
     var getSearchParams = function (url, key) {
         if (!url)
             return null;
-        return new URL(url).searchParams.get(key);
+        var searchParams = new URLSearchParams(url);
+        return searchParams.get(key);
     };
     var rewriteHref = function () {
         if (loading) {
@@ -56,7 +57,7 @@
     var redirectUrl = function () {
         var record = ConfigList.find(function (u) { return window.location.hostname.includes(u.key); });
         if (record === null || record === void 0 ? void 0 : record.searchKey) {
-            var targetUrl = getSearchParams(window.location.href, record.searchKey);
+            var targetUrl = getSearchParams(window.location.href.split('?')[1], record.searchKey);
             if (targetUrl) {
                 window.location.href = targetUrl;
             }
