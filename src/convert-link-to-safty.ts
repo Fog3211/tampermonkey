@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         去除简书、知乎、掘金外链安全限制
 // @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/convert-link-to-safty.js
-// @version      0.2.0
+// @version      0.2.1
 // @description  去除简书、知乎、掘金外链安全限制，将a标签改为直接跳转
 // @author       Fog3211
 // @match      https://*.jianshu.com/*
@@ -29,7 +29,8 @@
 
   const getSearchParams = (url: string, key: string) => {
     if (!url) return null
-    return new URL(url).searchParams.get(key)
+    const searchParams = new URLSearchParams(url)
+    return searchParams.get(key)
   }
 
   const rewriteHref = () => {
@@ -64,7 +65,7 @@
   const redirectUrl = () => {
     const record = ConfigList.find(u => window.location.hostname.includes(u.key))
     if (record?.searchKey) {
-      const targetUrl = getSearchParams(window.location.href, record.searchKey)
+      const targetUrl = getSearchParams(window.location.href.split('?')[1], record.searchKey)
       if (targetUrl) {
         window.location.href = targetUrl
       }
