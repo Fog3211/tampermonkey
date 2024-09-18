@@ -11,10 +11,10 @@
 // ==/UserScript==
 (function () {
     'use strict';
-    var links = document.querySelectorAll('a.card');
-    links.forEach(function (link) {
-        var targetUrl = link.getAttribute('data-url');
-        var href = link.getAttribute('href');
+    const links = document.querySelectorAll('a.card');
+    links.forEach(link => {
+        const targetUrl = link.getAttribute('data-url');
+        const href = link.getAttribute('href');
         if (targetUrl && href) {
             link.setAttribute('href', targetUrl);
             link.setAttribute('data-href', href);
