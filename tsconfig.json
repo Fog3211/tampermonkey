@@ -4,7 +4,7 @@
     "strict": true,
     "module": "commonjs",
     "skipLibCheck": true,
-    "target": "es5",
+    "target": "esnext",
     "outDir": "dist",
     "baseUrl": "./",
     "paths": {
@@ -21,13 +21,11 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "es2015",
       "esnext"
-    ]
+    ],
+    "typeRoots": ["./src/@types", "./node_modules/@types"]
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "build",
