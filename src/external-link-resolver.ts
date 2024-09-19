@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         去除网站外链跳转安全限制
-// @namespace    http://tampermonkey.net/
+// @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/external-link-resolver.js
 // @version      1.0.2
 // @description  去除简书、知乎、掘金、CSDN、思否、少数派等网站的外链安全限制，将a标签改为直接跳转
+// @license      MIT
 // @match        https://juejin.cn/*
 // @match        https://link.juejin.cn/*
 // @match        https://segmentfault.com/*

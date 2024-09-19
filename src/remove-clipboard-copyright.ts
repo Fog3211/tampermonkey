@@ -2,6 +2,7 @@
 // @name         屏蔽复制版权信息
 // @namespace    https://raw.githubusercontent.com/Fog3211/tampermonkey/gh-pages/remove-clipboard-copyright.js
 // @version      0.0.6
+// @license      MIT
 // @description  在力扣、知乎网站屏蔽复制版权信息
 // @author       Fog3211
 // @match        https://leetcode-cn.com/*
