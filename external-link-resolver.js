@@ -25,7 +25,7 @@
     };
     const siteConfigs = {
         "juejin": {
-            directMatch: ["link.juejin.cn"],
+            directMatch: ["https://link.juejin.cn"],
             extractTarget: async (url) => {
                 const target = genericExtractTarget(url, "target");
                 if (target) {
@@ -38,7 +38,7 @@
             }
         },
         "segmentfault": {
-            directMatch: ["link.segmentfault.com"],
+            directMatch: ["https://link.segmentfault.com"],
             extractTarget: async (url) => {
                 return new Promise((resolve) => {
                     GM_xmlhttpRequest({
@@ -61,26 +61,26 @@
             }
         },
         "csdn": {
-            directMatch: ["link.csdn.net"],
+            directMatch: ["https://link.csdn.net"],
             targetParam: "target"
         },
         "jianshu": {
-            directMatch: ["link.jianshu.com", "links.jianshu.com"],
+            directMatch: ["https://link.jianshu.com", "https://links.jianshu.com"],
             targetParam: "to"
         },
         "zhihu": {
-            directMatch: ["link.zhihu.com"],
+            directMatch: ["https://link.zhihu.com"],
             targetParam: "target"
         },
         "sspai": {
-            directMatch: ["sspai.com"],
+            directMatch: ["https://sspai.com"],
             targetParam: "target"
         }
     };
     async function processRule(config) {
-        if (config.directMatch.includes(window.location.hostname)) {
+        if (config.directMatch.includes(window.location.origin)) {
             let targetUrl = await getTargetUrl(config, new URL(window.location.href));
-            while (targetUrl && targetUrl.startsWith("https://link.juejin.cn")) {
+            while (targetUrl && new URL(targetUrl).origin === "https://link.juejin.cn") {
                 // Keep resolving until we get the final non-Juejin link
                 targetUrl = await getTargetUrl(siteConfigs["juejin"], new URL(targetUrl));
             }
@@ -101,7 +101,7 @@
         return null;
     }
     async function replaceLinks(config) {
-        const linkSelector = config.directMatch.map(site => `a[href^="https://${site}"]`).join(", ");
+        const linkSelector = config.directMatch.map(site => `a[href^="${site}"]`).join(", ");
         const links = document.querySelectorAll(linkSelector);
         for (const link of links) {
             const href = link.getAttribute("href");
@@ -120,7 +120,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }
     async function init() {
-        const currentSite = Object.keys(siteConfigs).find(site => siteConfigs[site].directMatch.includes(window.location.hostname));
+        const currentSite = Object.keys(siteConfigs).find(site => siteConfigs[site].directMatch.includes(window.location.origin));
         if (currentSite) {
             const config = siteConfigs[currentSite];
             await processRule(config);
