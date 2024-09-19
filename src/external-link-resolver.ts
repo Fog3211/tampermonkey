@@ -37,7 +37,7 @@ interface SiteConfigs {
 
   const siteConfigs: SiteConfigs = {
     "juejin": {
-      directMatch: ["link.juejin.cn"],
+      directMatch: ["https://link.juejin.cn"],
       extractTarget: async (url: URL): Promise<string | null> => {
         const target = genericExtractTarget(url, "target");
         if (target) {
@@ -50,7 +50,7 @@ interface SiteConfigs {
       }
     },
     "segmentfault": {
-      directMatch: ["link.segmentfault.com"],
+      directMatch: ["https://link.segmentfault.com"],
       extractTarget: async (url: URL): Promise<string> => {
         return new Promise((resolve) => {
           GM_xmlhttpRequest({
@@ -73,27 +73,27 @@ interface SiteConfigs {
       }
     },
     "csdn": {
-      directMatch: ["link.csdn.net"],
+      directMatch: ["https://link.csdn.net"],
       targetParam: "target"
     },
     "jianshu": {
-      directMatch: ["link.jianshu.com", "links.jianshu.com"],
+      directMatch: ["https://link.jianshu.com", "https://links.jianshu.com"],
       targetParam: "to"
     },
     "zhihu": {
-      directMatch: ["link.zhihu.com"],
+      directMatch: ["https://link.zhihu.com"],
       targetParam: "target"
     },
     "sspai": {
-      directMatch: ["sspai.com"],
+      directMatch: ["https://sspai.com"],
       targetParam: "target"
     }
   };
 
   async function processRule(config: SiteConfig): Promise<void> {
-    if (config.directMatch.includes(window.location.hostname)) {
+    if (config.directMatch.includes(window.location.origin)) {
       let targetUrl = await getTargetUrl(config, new URL(window.location.href));
-      while (targetUrl && targetUrl.startsWith("https://link.juejin.cn")) {
+      while (targetUrl && new URL(targetUrl).origin === "https://link.juejin.cn") {
         // Keep resolving until we get the final non-Juejin link
         targetUrl = await getTargetUrl(siteConfigs["juejin"], new URL(targetUrl));
       }
@@ -116,7 +116,7 @@ interface SiteConfigs {
   }
 
   async function replaceLinks(config: SiteConfig): Promise<void> {
-    const linkSelector = config.directMatch.map(site => `a[href^="https://${site}"]`).join(", ");
+    const linkSelector = config.directMatch.map(site => `a[href^="${site}"]`).join(", ");
     const links = document.querySelectorAll<HTMLAnchorElement>(linkSelector);
 
     for (const link of links) {
@@ -139,7 +139,7 @@ interface SiteConfigs {
 
   async function init(): Promise<void> {
     const currentSite = Object.keys(siteConfigs).find(site =>
-      siteConfigs[site].directMatch.includes(window.location.hostname)
+      siteConfigs[site].directMatch.includes(window.location.origin)
     );
 
     if (currentSite) {
