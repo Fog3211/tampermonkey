@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         去除网站外链跳转安全限制
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
-// @description  去除简书、知乎、掘金、CSDN、思否、简书等网站的外链安全限制，将a标签改为直接跳转
+// @version      1.0.2
+// @description  去除简书、知乎、掘金、CSDN、思否、少数派等网站的外链安全限制，将a标签改为直接跳转
 // @match        https://juejin.cn/*
 // @match        https://link.juejin.cn/*
 // @match        https://segmentfault.com/*
@@ -10,13 +10,16 @@
 // @match        https://csdn.net/*
 // @match        https://link.csdn.net/*
 // @match        https://*.jianshu.com/*
+// @match        https://*.zhihu.com/*
+// @match        https://link.zhihu.com/*
+// @match        https://sspai.com/*
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
 interface SiteConfig {
   directMatch: string[];
-  linkSelector: string;
-  extractTarget: (url: URL) => Promise<string | null> | string | null;
+  extractTarget?: (url: URL) => Promise<string | null>
+  targetParam?: string;
 }
 
 interface SiteConfigs {
@@ -26,16 +29,20 @@ interface SiteConfigs {
 (function () {
   "use strict";
 
+  // Generic extractTarget function
+  const genericExtractTarget = (url: URL, paramName: string): string | null => {
+    const params = new URLSearchParams(url.search);
+    return params.get(paramName);
+  };
+
   const siteConfigs: SiteConfigs = {
     "juejin": {
       directMatch: ["link.juejin.cn"],
-      linkSelector: "a[href^=\"https://link.juejin.cn\"]",
       extractTarget: async (url: URL): Promise<string | null> => {
-        const params = new URLSearchParams(url.search);
-        const target = params.get("target");
+        const target = genericExtractTarget(url, "target");
         if (target) {
           if (target.startsWith("https://link.juejin.cn")) {
-            return siteConfigs["juejin"].extractTarget(new URL(target));
+            return siteConfigs["juejin"].extractTarget!(new URL(target));
           }
           return decodeURIComponent(target);
         }
@@ -44,7 +51,6 @@ interface SiteConfigs {
     },
     "segmentfault": {
       directMatch: ["link.segmentfault.com"],
-      linkSelector: "a[href^=\"https://link.segmentfault.com\"]",
       extractTarget: async (url: URL): Promise<string> => {
         return new Promise((resolve) => {
           GM_xmlhttpRequest({
@@ -68,28 +74,28 @@ interface SiteConfigs {
     },
     "csdn": {
       directMatch: ["link.csdn.net"],
-      linkSelector: "a[href^=\"https://link.csdn.net/\"]",
-      extractTarget: (url: URL): string | null => {
-        const params = new URLSearchParams(url.search);
-        return params.get("target");
-      }
+      targetParam: "target"
     },
     "jianshu": {
       directMatch: ["link.jianshu.com", "links.jianshu.com"],
-      linkSelector: "a[href^=\"https://link.jianshu.com\"], a[href^=\"https://links.jianshu.com\"]",
-      extractTarget: (url: URL): string | null => {
-        const params = new URLSearchParams(url.search);
-        return params.get("to");
-      }
+      targetParam: "to"
+    },
+    "zhihu": {
+      directMatch: ["link.zhihu.com"],
+      targetParam: "target"
+    },
+    "sspai": {
+      directMatch: ["sspai.com"],
+      targetParam: "target"
     }
   };
 
   async function processRule(config: SiteConfig): Promise<void> {
     if (config.directMatch.includes(window.location.hostname)) {
-      let targetUrl = await config.extractTarget(new URL(window.location.href));
+      let targetUrl = await getTargetUrl(config, new URL(window.location.href));
       while (targetUrl && targetUrl.startsWith("https://link.juejin.cn")) {
         // Keep resolving until we get the final non-Juejin link
-        targetUrl = await siteConfigs["juejin"].extractTarget(new URL(targetUrl));
+        targetUrl = await getTargetUrl(siteConfigs["juejin"], new URL(targetUrl));
       }
       if (targetUrl) {
         window.location.href = targetUrl;
@@ -100,12 +106,23 @@ interface SiteConfigs {
     await replaceLinks(config);
   }
 
+  async function getTargetUrl(config: SiteConfig, url: URL): Promise<string | null> {
+    if (config.targetParam) {
+      return genericExtractTarget(url, config.targetParam);
+    } else if (config.extractTarget) {
+      return config.extractTarget(url);
+    }
+    return null;
+  }
+
   async function replaceLinks(config: SiteConfig): Promise<void> {
-    const links = document.querySelectorAll<HTMLAnchorElement>(config.linkSelector);
+    const linkSelector = config.directMatch.map(site => `a[href^="https://${site}"]`).join(", ");
+    const links = document.querySelectorAll<HTMLAnchorElement>(linkSelector);
+
     for (const link of links) {
       const href = link.getAttribute("href");
       if (href) {
-        const targetUrl = await config.extractTarget(new URL(href));
+        const targetUrl = await getTargetUrl(config, new URL(href));
         if (targetUrl) {
           link.href = decodeURIComponent(targetUrl);
           link.target = "_blank";
